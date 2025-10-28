@@ -14,6 +14,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::post('/user/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'register']);
 
 
