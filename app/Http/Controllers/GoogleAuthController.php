@@ -16,7 +16,6 @@ class GoogleAuthController extends Controller
      * Handle Google Sign-In
      * Exchange Google credential for app tokens
      *
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function googleSignIn(Request $request)
@@ -54,7 +53,7 @@ class GoogleAuthController extends Controller
 
             if ($user) {
                 // Update Google info if user exists with same email but no google_id
-                if (!$user->google_id) {
+                if (! $user->google_id) {
                     $user->google_id = $googleId;
                     $user->provider = 'google';
                     if ($avatar) {
@@ -115,4 +114,3 @@ class GoogleAuthController extends Controller
         }
     }
 }
-

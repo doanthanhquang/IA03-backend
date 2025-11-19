@@ -12,7 +12,6 @@ class UserController extends Controller
     /**
      * Register a new user
      *
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request)
@@ -37,7 +36,7 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()->first(),
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 400);
         }
 
@@ -59,7 +58,7 @@ class UserController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'createdAt' => $user->created_at->toIso8601String(),
-                ]
+                ],
             ], 201);
 
         } catch (\Exception $e) {
@@ -67,10 +66,8 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred during registration',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
 }
-
-

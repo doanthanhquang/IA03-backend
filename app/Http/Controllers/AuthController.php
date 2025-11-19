@@ -27,7 +27,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid email or password',
@@ -63,7 +63,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'avatar' => $user->avatar,
                 'provider' => $user->provider ?? 'email',
-            ]
+            ],
         ]);
     }
 
@@ -84,7 +84,7 @@ class AuthController extends Controller
             ->where('revoked', false)
             ->first();
 
-        if (!$token || $token->refresh_expires_at->isPast()) {
+        if (! $token || $token->refresh_expires_at->isPast()) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid or expired refresh token',
@@ -124,9 +124,10 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         $user = $request->attributes->get('auth_user');
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
+
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,

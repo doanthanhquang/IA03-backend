@@ -12,7 +12,7 @@ class BearerTokenAuth
     public function handle(Request $request, Closure $next): Response
     {
         $tokenString = $request->bearerToken();
-        if (!$tokenString) {
+        if (! $tokenString) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
@@ -21,7 +21,7 @@ class BearerTokenAuth
             ->where('revoked', false)
             ->first();
 
-        if (!$token || $token->access_expires_at->isPast()) {
+        if (! $token || $token->access_expires_at->isPast()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
@@ -31,5 +31,3 @@ class BearerTokenAuth
         return $next($request);
     }
 }
-
-

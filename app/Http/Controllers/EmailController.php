@@ -9,7 +9,6 @@ class EmailController extends Controller
     /**
      * Get list of mailboxes/folders
      *
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function getMailboxes(Request $request)
@@ -82,8 +81,7 @@ class EmailController extends Controller
     /**
      * Get emails for a specific mailbox
      *
-     * @param Request $request
-     * @param string $mailboxId
+     * @param  string  $mailboxId
      * @return \Illuminate\Http\JsonResponse
      */
     public function getEmails(Request $request, $mailboxId)
@@ -113,8 +111,7 @@ class EmailController extends Controller
     /**
      * Get single email detail
      *
-     * @param Request $request
-     * @param string $emailId
+     * @param  string  $emailId
      * @return \Illuminate\Http\JsonResponse
      */
     public function getEmailDetail(Request $request, $emailId)
@@ -189,7 +186,7 @@ class EmailController extends Controller
     /**
      * Generate mock emails based on mailbox
      *
-     * @param string $mailboxId
+     * @param  string  $mailboxId
      * @return array
      */
     private function getMockEmails($mailboxId)
@@ -380,25 +377,26 @@ class EmailController extends Controller
         // Filter or modify based on mailbox
         switch ($mailboxId) {
             case 'starred':
-                return array_filter($baseEmails, fn($e) => $e['starred']);
+                return array_filter($baseEmails, fn ($e) => $e['starred']);
             case 'sent':
                 // Modify to show as sent emails
                 $sentEmails = array_map(function ($e) {
                     $e['from'] = ['name' => 'Me', 'email' => 'me@example.com', 'avatar' => null];
+
                     return $e;
                 }, array_slice($baseEmails, 0, 6));
+
                 return $sentEmails;
             case 'drafts':
                 return array_slice($baseEmails, 0, 3);
             case 'trash':
                 return array_slice($baseEmails, -4);
             case 'work':
-                return array_filter($baseEmails, fn($e) => in_array('work', $e['labels'] ?? []));
+                return array_filter($baseEmails, fn ($e) => in_array('work', $e['labels'] ?? []));
             case 'personal':
-                return array_filter($baseEmails, fn($e) => in_array('personal', $e['labels'] ?? []));
+                return array_filter($baseEmails, fn ($e) => in_array('personal', $e['labels'] ?? []));
             default:
                 return $baseEmails;
         }
     }
 }
-
